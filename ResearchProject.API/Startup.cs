@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using ResearchProject.API.GraphQl;
 using ResearchProject.DAL.Interfaces;
 using ResearchProject.Models;
 
@@ -40,7 +41,10 @@ namespace ResearchProject.API
             services.AddTransient<IPersonRepository, PersonRepository>();
             services.AddTransient<IAddressRepository, AddressRepository>();
 
+            services.AddGraphQLServer().AddQueryType<Query>();
+
             services.AddDbContext<ResearchProjectContext>(options => options.UseInMemoryDatabase("ResearchDb"));
+
 
         }
 
@@ -63,6 +67,7 @@ namespace ResearchProject.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGraphQL("/graphql");
             });
         }
     }
