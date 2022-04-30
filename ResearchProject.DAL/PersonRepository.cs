@@ -1,51 +1,73 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using ResearchProject.Models;
+using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
+using System.Threading.Tasks;
+using Dapper;
 using System.Linq;
-using Microsoft.EntityFrameworkCore;
-using ResearchProject.DAL.Interfaces;
-using ResearchProject.Models;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using ResearchProject.DAL.Persistance.Interfaces;
 
 namespace ResearchProject.DAL
 {
-    public class PersonRepository : IPersonRepository
+    internal class PersonRepository : ResearchProjectBaseRepository, IPersonRepository
     {
-        private readonly ResearchProjectContext _context;
-        public PersonRepository(ResearchProjectContext context)
+        public PersonRepository(IDbConnectionFactory dbConnectionFactory): base(dbConnectionFactory) { }
+
+        public async Task<IEnumerable<Person>> GetAll()
         {
-            _context = context;
+            var sql = "SELECT * FROM Persons";
+
+            var allPersons = await DbConnection.QueryAsync<Person>(sql);
+
+            return allPersons;
         }
 
-        public IEnumerable<Person> GetAll()
+        public async Task<Person> GetById(int personId)
         {
-            return _context.Persons;
+            var parameters = new {personId};
+
+            var sql = $"SELECT * FROM Persons WHERE Id = @{nameof(personId)}";
+
+            var person = await DbConnection.QueryFirstOrDefaultAsync<Person>(sql, parameters);
+
+            var result = person;
+
+            return person;
         }
 
-        public Person GetById(int id)
+        public async Task<IEnumerable<Address>> GetAddressesByPersonId(int personId)
         {
-            return _context.Persons.Find(id);
+            var parameters = new { personId };
+
+            var sql = $"SELECT * FROM Addresses WHERE PersonId = @{nameof(personId)}";
+
+            var addresses = await DbConnection.QueryAsync<Address>(sql, parameters);
+
+            return addresses;
+
         }
 
-        public void Insert(Person person)
+        public async Task<IEnumerable<Pet>> GetPetsByPersonId(int personId)
         {
-            _context.Persons.Add(person);
+            var parameters = new { personId };
+
+            var sql = $"SELECT * FROM Pets WHERE OwnerId = @{nameof(personId)}";
+
+            var pets = await DbConnection.QueryAsync<Pet>(sql, parameters);
+
+            return pets;
+
         }
 
-        public void Update(Person person)
+        public async Task<Veterinary> GetVetByPetId(int petId)
         {
-            _context.Persons.Attach(person);
-            _context.Entry(person).State = EntityState.Modified;
-        }
+            var parameters = new {petId};
 
-        public void Delete(int id)
-        {
-            var toBeDeleted = _context.Persons.Find(id);
-            _context.Persons.Remove(toBeDeleted);
-        }
-        public void Save()
-        {
-            _context.SaveChanges();
-        }
+            var sql = $"SELECT * FROM Veterinaries v INNER JOIN Pets p on p.VeternaryId = v.Id";
 
+            var vet = await DbConnection.QueryFirstOrDefaultAsync<Veterinary>(sql, parameters);
 
+            return vet;
+        }
     }
 }
