@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ResearchProject.DAL;
 
 namespace ResearchProject.DAL.Migrations
 {
     [DbContext(typeof(ResearchProjectContext))]
-    partial class ResearchProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20220502134948_extraData")]
+    partial class extraData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

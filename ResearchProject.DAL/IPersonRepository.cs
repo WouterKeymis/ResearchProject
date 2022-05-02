@@ -10,7 +10,7 @@ namespace ResearchProject.DAL
         Task<Person> GetById(int personId);
         Task<IEnumerable<Pet>> GetPetsByPersonId(int personId);
         Task<IEnumerable<Address>> GetAddressesByPersonId(int personId);
-        Task<Veterinary> GetVetByPetId(int petId);
+        Task<IEnumerable<Person>> GetPersonsByCity(string city);
 
     }
 }

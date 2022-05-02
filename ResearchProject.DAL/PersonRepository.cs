@@ -56,18 +56,11 @@ namespace ResearchProject.DAL
             var pets = await DbConnection.QueryAsync<Pet>(sql, parameters);
 
             return pets;
-
         }
 
-        public async Task<Veterinary> GetVetByPetId(int petId)
+        public async Task<IEnumerable<Person>> GetPersonsByCity(string city)
         {
-            var parameters = new {petId};
-
-            var sql = $"SELECT * FROM Veterinaries v INNER JOIN Pets p on p.VeternaryId = v.Id";
-
-            var vet = await DbConnection.QueryFirstOrDefaultAsync<Veterinary>(sql, parameters);
-
-            return vet;
+            return null;
         }
     }
 }

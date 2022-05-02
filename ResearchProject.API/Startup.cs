@@ -1,3 +1,4 @@
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,8 @@ namespace ResearchProject.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "ResearchProject.API", Version = "v1"});
             });
+
+            services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             services.AddDbContext<ResearchProjectContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("researchDB")));

@@ -10,9 +10,17 @@ namespace ResearchProject.API.GraphQl
     {
         [UseProjection]
         [UseFiltering()]
-        public IQueryable<Person> GetPerson([Service] ResearchProjectContext context)
+        public IQueryable<Person> GetPersons([Service] ResearchProjectContext context)
         {
             return context.Persons;
         }
+
+        
+        [UseProjection]
+        public IQueryable<Pet> GetPets([Service] ResearchProjectContext context)
+        {
+            return context.Pets;
+        }
+        
     }
 }
