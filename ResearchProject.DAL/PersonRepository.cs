@@ -60,7 +60,14 @@ namespace ResearchProject.DAL
 
         public async Task<IEnumerable<Person>> GetPersonsByCity(string city)
         {
-            return null;
+            var parameters = new {city};
+
+            var sql =
+                $"SELECT * FROM Persons p INNER JOIN Addresses a ON a.PersonId = p.Id AND a.City = @{nameof(city)}";
+
+            var persons = await DbConnection.QueryAsync<Person>(sql, parameters);
+
+            return persons;
         }
     }
 }
