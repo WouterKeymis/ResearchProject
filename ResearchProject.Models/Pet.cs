@@ -7,6 +7,7 @@ namespace ResearchProject.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string AnimalType { get; set; }
+        public int VeterinaryId { get; set; }
         public Person Owner { get; set; }
         public Veterinary Veterinary { get; set; }
     }

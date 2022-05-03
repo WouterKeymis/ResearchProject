@@ -14,7 +14,9 @@ namespace ResearchProject.DAL
         {
             services
                 .AddDatabaseConnections()
-                .AddScoped<IPersonRepository, PersonRepository>();
+                .AddScoped<IPersonRepository, PersonRepository>()
+                .AddScoped<IVetenaryRepository, VetenaryRepository>();
+
             return services;
         }
 
